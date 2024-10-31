@@ -95,8 +95,10 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             box-sizing: border-box;
-            position: absolute; /* جعلها في منتصف الصفحة */
-            bottom: 250px; /* ضبط المسافة من الأسفل */
+            position: fixed; /* جعلها في منتصف الصفحة */
+            bottom: 100px; /* ضبط المسافة من الأسفل */
+            left: 50%; /* مركزية العنصر */
+            transform: translateX(-50%); /* مركزية العنصر */
         }
 
         .story-textarea {
@@ -147,7 +149,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px ;
+            font -size: 14px ;
             transition: background-color 0.3s;
             display: flex; /* استخدام flex لتوسيع الأيقونة والنص */
             align-items: center; /* محاذاة الأيقونة والنص عموديًا */
@@ -244,7 +246,104 @@
         const examplesBox = document.getElementById('examples-box');
         const textarea = document.querySelector('.story-textarea');
         const remainingChars = document.getElementById('remaining-chars');
-        const submitButton = document.getElementById('submit-button');
+ -size: 14px ;
+            transition: background-color 0.3s;
+            display: flex; /* استخدام flex لتوسيع الأيقونة والنص */
+            align-items: center; /* محاذاة الأيقونة والنص عموديًا */
+            justify-content: center; /* محاذاة الأيقونة والنص أفقيًا */
+        }
+
+        .start-button i {
+            margin-left: 8px; /* مسافة بين الأيقونة والنص */
+        }
+
+        .start-button:hover {
+            background-color: #218838;
+        }
+
+        .terms-list {
+            list-style-type: circle; /* تغيير المؤشر إلى دائرة لتناسب الاتجاه العربي */
+            padding: 0;
+            text-align: right;
+            font-size: 14px;
+            direction: rtl; /* لضمان محاذاة النص إلى اليمين */
+        }
+
+        .examples-box {
+            display: flex; /* إظهار مربع الأمثلة بشكل افتراضي */
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px; /* زيادة المسافة بين زر الكتابة ومربع الأمثلة */
+            width: 90%;
+            max-width: 600px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px; /* زيادة Padding لمزيد من المساحة */
+            box-sizing: border-box;
+            text-align: right; /* محاذاة النص إلى اليمين */
+            position: absolute; /* جعلها في منتصف الصفحة */
+            top: 50%; /* ضبط الموقع العمودي */
+            transform: translateY(-50%); /* مركزية العمود */
+        }
+
+        .examples-list {
+            padding: 0;
+            list-style-type: circle; /* تغيير المؤشر إلى دائرة */
+            font-size: 16px; /* زيادة حجم الخط */
+            direction: rtl; /* لضمان محاذاة النص إلى اليمين */
+        }
+    </style>
+</head>
+<body>
+    <h1>Melion<span>Story</span></h1>
+    
+    <div class="examples-box" id="examples-box">
+        <ul class="examples-list">
+          <p>أمثلة عن أنواع القصص:</p>
+            <li>وقائع حدثت معك وكانت مؤلمة</li>
+            <li>صدمات لم تجد لمن تحكيها</li>
+            <li>تجارب شخصية تعلمت منها</li>
+            <li>قرارات ندمت أو لم تندم على اتخاذها</li>
+            <li>ذكريات لم تستطع نسيانها</li>
+            <li>سلوكيات تريد التوقف عنها</li>
+            <li>عادات تريد تركها</li>
+            <li>أسرار تريد البوح بها</li>
+            <li>مشاركة إنجاز حققته</li>
+        </ul>
+    </div>
+
+    <button class="start-button" id="start-button">
+        اكتب قصتك <i class="fas fa-pencil-alt"></i>
+    </button>
+
+    <div class="story-box">
+        <textarea class="story-textarea" placeholder="اكتب قصتك هنا..." maxlength="4096"></textarea>
+        <div class="char-count">عدد الأحرف المتبقية: <span id="remaining-chars">4096</span></div>
+        <button class="submit-button" id="submit-button">إرسال</button>
+    </div>
+
+    <div class="social-icons">
+        <a href="https://www.youtube.com/@MelionTech" target="_blank" class="youtube">
+            <i class="fab fa-youtube"></i>
+        </a>
+        <a href="https://t.me/MelionTech" target="_blank" class="telegram">
+            <i class="fab fa-telegram"></i>
+        </a>
+    </div>
+    
+    <a href="https://www.buymeacoffee.com/" target="_blank" class="buy-coffee">
+        <img src="https://i.imgur.com/N40uXXP_d.webp?maxwidth=760&fidelity=grand" alt="Buy me a coffee">
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const startButton = document.getElementById('start-button');
+        const storyBox = document.querySelector('.story-box');
+        const examplesBox = document.getElementById('examples-box');
+        const textarea = document.querySelector('.story-textarea');
+        const remainingChars = document.getElementById('remaining-chars');
+ const submitButton = document.getElementById('submit-button');
         const maxChars = 4096;
 
         startButton.addEventListener('click', () => {
@@ -302,6 +401,14 @@
             }
         });
 
+        textarea.addEventListener('focus', () => {
+            storyBox.style.bottom = '200px'; // رفع مربع النص عند التركيز
+        });
+
+        textarea.addEventListener('blur', () => {
+            storyBox.style.bottom = '100px'; // إعادة مربع النص إلى وضعه الأصلي عند فقدان التركيز
+        });
+
         submitButton.addEventListener('click', () => {
             const storyText = textarea.value.trim();
 
@@ -346,7 +453,7 @@
                             .then(response => response.json())
                             .then(data => {
                                 setTimeout(() => {
-                                    if (data.ok) {
+ if (data.ok) {
                                         // تخزين الوقت الحالي في localStorage
                                         localStorage.setItem('lastSentTime', currentTime);
 
